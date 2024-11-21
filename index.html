@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadpad Export</title>
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-solid.css">
+<style>
+    :root {
+    --border: 4px solid #3066B3;
+    --hot: #D1D0D1;
+    --cold: #7D7C7C;
+}
+html, body {
+    background: #060C16;
+    color: var(--hot);
+    font-family: Inter;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    cursor: crosshair;
+}
+.bar {
+    background: #010205;
+    border-top: 4px solid #325CAC;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    width: calc(100vw - 12px);
+    display: flex;
+    flex-direction: row;
+    padding-left: 12px;
+    align-items: center;
+}
+.center {
+    height: calc(100vh - 54px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.mid {
+    height: 180px;
+    width: 100vw;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: var(--border);
+    border-bottom: var(--border);
+    background-color: rgba(200,200,255,0.04);
+}
+.mid::before {
+    width: 100vw;
+    height: 40px;
+    content: "";
+    position: absolute;
+    background: linear-gradient(transparent, #17253f);
+    top: -44px;
+}
+.mid::after {
+    width: 100vw;
+    height: 40px;
+    content: "";
+    position: absolute;
+    background: linear-gradient(#17253f, transparent);
+    bottom: -44px;
+}
+#top-left {
+    top: 8px;
+    left: 8px;
+    position: absolute;
+    font-size: 22px;
+}
+#top-left-2 {
+    top: 38px;
+    left: 10px;
+    font-size: 14px;
+    position: absolute;
+}
+.mid {
+    justify-content: space-around;
+}
+.r, .l {
+    height: 60px;
+}
+.s {
+    height: 100px;
+}
+.pre, .post {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 170px;
+}
+.pre {
+    background: linear-gradient(to right, #17253f80, transparent);
+}
+.post {
+    right: 0;
+    left: unset;
+    background: linear-gradient(to left, #17253f80, transparent);
+}
+* {
+    user-select: none;
+}
+
+.warn {
+    position: absolute;
+    background-color: #00000050;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    display: none;
+    gap: 2px;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+.warn h1 {
+    margin: 2px 0;
+}
+#icons {
+    gap: 2px;
+    display: flex;
+}
+#icons i {
+    font-size: 25px;
+}
+@keyframes warnShow {
+    0% {
+        opacity: 0;
+        display: flex;
+    }
+    100% {
+        opacity: 1;
+        display: flex;
+    }
+}
+@keyframes warnHide {
+    0% {
+        opacity: 1;
+        display: flex;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+.warn.active {
+    display: flex;
+    animation: warnShow 0.2s ease forwards;
+}
+.warn.disabling {
+    animation: warnHide 0.25s ease forwards !important;
+}
+.bar {
+    gap: 15px;
+}
+.bar #icon i {
+    color: #3066B3;
+}
+.bar #icon span {
+    color: var(--cold);
+    font-weight: 800;
+}
+.gap {
+    width: 10px;
+    height: 16px;
+}
+.menu, .game {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+.hidden {
+    display: none;
+}
+.game {
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.game-frame, .game .panel {
+    height: 300px;
+    width: 350px;
+    border-radius: 6px;
+    border: 3px solid #ffffff0a;
+    position: relative;
+}
+.game-frame iframe {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+}
+.game-frame #gameThumb {
+    height: 100%;
+    border-radius: 6px;
+    filter: grayscale(0.6) blur(2px);
+    width: 100%;
+    position: absolute;
+}
+.game .panel {
+    width: 200px;
+    display: flex;
+    padding: 4px;
+    flex-direction: column;
+    gap: 2px;
+}
+.checkbox {
+    background-color: black;
+    width: 15px;
+    height: 15px;
+    border: 2px solid rgb(2, 69, 71);
+    border-radius: 4px;
+    cursor: default;
+}
+button {
+    border: 2px solid rgb(2, 69, 71);
+    border-radius: 4px;
+    background: #111;
+    font-family: Inter;
+    color: var(--hot);
+    gap: 2px;
+}
+button:hover, .checkbox:hover {
+    background-color: #111120;
+}
+.checkbox.checked {
+    background: #2085a3;
+}
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.line {
+    width: 100%;
+    height: 3px;
+    background: #ffffff0a;
+    margin: 8px 0px;
+}
+#gameAuthorImage {
+    height: 25px;
+    border-radius: 50%;
+}
+.yCenter {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+.games {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+::-webkit-scrollbar {
+    background: linear-gradient(to right, transparent 4px, #141c33 4px);
+    border-radius: 3px;
+    width: 12px;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to right, transparent 4px, #182241 6px);
+    border-radius: 3px;
+}
+</style>
+</head>
+<body>
+<div class="menu">
+    <span id="top-left">Boxocera Linux</span>
+    <span id="top-left-2">Euh, c'est quoi le sigma?</span>
+    <div class="center">
+        <div class="mid">
+            <div class="pre"></div>
+            <img src="https://raw.githubusercontent.com/RetroPie/es-theme-carbon/b09973e0b0c589cb11fe772c169a6ff5d588b390/wii/art/system.svg" class="l">
+            <img src="https://raw.githubusercontent.com/RetroPie/es-theme-carbon/b09973e0b0c589cb11fe772c169a6ff5d588b390/nes/art/system.svg" class="s">
+            <img src="https://raw.githubusercontent.com/RetroPie/es-theme-carbon/b09973e0b0c589cb11fe772c169a6ff5d588b390/ports/art/system.svg" class="r">
+            <div class="post"></div>
+        </div>
+    </div>
+    <div class="bar">
+        <span id="icon"><i class="fa-solid fa-circle-play"></i> <span>SEARCH</span></span>
+        <span id="icon"><i class="fa-solid fa-circle-left"></i> <span>BACK</span></span>
+        <span id="icon"><i class="fa-solid fa-circle-up"></i> <span>RANDOM</span></span>
+        <span id="icon"><i class="fa-solid fa-left-right"></i> <span>CHOOSE</span></span>
+        <span id="icon"><i class="fa-solid fa-circle-down"></i> <span>SELECT</span></span>
+        <span id="icon"><i class="fa-solid fa-files"></i> <span>FILES</span></span>
+    </div>
+    
+    <div class="warn">
+        <h1><i class="fa-solid fa-sharp fa-mouse-pointer"></i> Mouse Not Supported</h1>
+        <span>Boxocera for Web is developed to support arrow keys.</span>
+        <span id="icons"><i class="fa-solid fa-square-up"></i><i class="fa-solid fa-square-down"></i><i class="fa-solid fa-square-left"></i><i class="fa-solid fa-square-right"></i></span>
+        <div class="gap"></div>
+        <span><i>Wait for this message to exit</i></span>
+    </div>
+</div>
+
+<div class="game hidden">
+    <div class="game-frame">
+        <img src="" id="gameThumb">
+
+        <iframe src=""></iframe>
+    </div>
+    <div class="panel">
+        <b id="gameName">Box World Tour</b>
+        <span class="yCenter"><img src="" id="gameAuthorImage"> <span id="gameAuthor"></span></span>
+        <div class="line"></div>
+        <div class="checkbox-container">
+            <div id="interpolate" class="checkbox checked"></div>
+            <span>Interpolation</span>
+        </div>
+        <button id="reload"><i class="fa-solid fa-refresh"></i> Reload</button>
+        <div class="line"></div>
+        <div class="games"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', ()=>{
+    const duration = 1500;
+    var curListener = null;
+    var curOtherListener = null;
+    var warn = document.getElementsByClassName('warn')[0];
+
+    var menu = document.querySelector('.menu');
+    var game = document.querySelector('.game');
+
+    function show(e) {
+        e.preventDefault();
+        if (curListener != null) {
+            clearTimeout(curListener);
+            clearTimeout(curOtherListener);
+        }
+        warn.classList.add('active');
+        curListener = setTimeout(() => {
+            warn.classList.remove('active');
+            warn.classList.add('disabling');
+            curOtherListener = setTimeout(() => {
+                warn.className = "warn";
+            }, 1000 * 0.25);
+        }, duration)
+    }
+
+    var showWarn = show;
+
+    document.querySelector('body').addEventListener('click', showWarn);
+    document.querySelector('body').addEventListener('contextmenu', showWarn);
+
+    const games = [{ "name": "Box", "id": 768067716, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/768067716_480x360.png", "url": "https://scratch.mit.edu/projects/768067716" }, { "name": "The Box II", "id": 779794593, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/779794593_480x360.png", "url": "https://scratch.mit.edu/projects/779794593" }, { "name": "Box remix", "id": 896253667, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/896253667_480x360.png", "url": "https://scratch.mit.edu/projects/896253667" }, { "name": "the box 3", "id": 811209008, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png", "url": "https://scratch.mit.edu/projects/918235963" } }, { "name": "a box to the past (box 7)", "id": 924608045, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/924608045_480x360.png", "url": "https://scratch.mit.edu/projects/924608045" }, { "name": "THE BOX VIII", "id": 1061257313, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1061257313_480x360.png", "url": "https://scratch.mit.edu/projects/1061257313" }, { "name": "Bluurii Battle Royale", "id": 1043170192, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1043170192_480x360.png", "url": "https://scratch.mit.edu/projects/1043170192" }];
+    const validKeys = ["ArrowLeft", "ArrowUp", "ArrowDown", "ArrowRight", "Enter", " ", "Escape"];
+    var selectedGame = 0;
+
+    var opened = false;
+
+    document.querySelector('body').addEventListener('keydown', (ev) => {
+        if (validKeys.includes(ev.key)) {
+            if (opened) return;
+            opened = true;
+            showGame();
+        }
+    })
+    function showGame() {
+        game.classList.remove('hidden');
+        menu.classList.add('hidden');
+        showWarn = function () { };
+        loadGame(games[selectedGame]);
+    }
+
+    function is(id) {
+        return document.querySelector('#'+id).classList.contains('checked');
+    }
+
+    var gameFrame = document.querySelector('iframe');
+    var gameAuthorImage = document.querySelector('#gameAuthorImage');
+    var gameAuthor = document.querySelector('#gameAuthor');
+    var gameName = document.querySelector('#gameName');
+    var gameThumb = document.querySelector('#gameThumb');
+    function loadGame(game) {
+        gameFrame.src = "https://turbowarp.org/" + game.id + "/embed" + `${is('interpolate') && "?interpolate"}`;
+        gameAuthorImage.src = game.author.image;
+        gameAuthor.textContent = game.author.name;
+        gameName.textContent = game.name;
+        gameThumb.classList.remove('hidden');
+        gameThumb.src = game.image;
+        gameFrame.addEventListener('load', ()=>{
+            gameThumb.classList.add('hidden');
+        })
+    }
+    function updateGame() {
+        gameFrame.src = gameFrame.src;
+    }
+
+    // showGame();
+
+    games.map((game, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = game.name;
+        btn.addEventListener('click', ()=>{
+            selectedGame = idx;
+            loadGame(games[selectedGame]);
+        })
+        document.querySelector('.games').append(btn);
+    })
+
+    document.querySelectorAll('.checkbox').forEach(box => {
+        box.addEventListener('click', () => {
+            box.classList.toggle('checked');
+            updateGame();
+        })
+    })
+    document.querySelector('#reload').addEventListener('click', ()=>{
+        updateGame();
+    });
+})
+</script>
+    
+</body>
+</html>
+                
