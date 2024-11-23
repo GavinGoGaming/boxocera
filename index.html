@@ -180,9 +180,6 @@ html, body {
     height: 100vh;
     display: flex;
 }
-.hidden {
-    display: none;
-}
 .game {
     align-items: center;
     justify-content: center;
@@ -190,6 +187,7 @@ html, body {
 }
 .game-frame, .game .panel {
     height: 300px;
+    overflow: hidden;
     width: 350px;
     border-radius: 6px;
     border: 3px solid #ffffff0a;
@@ -204,9 +202,14 @@ html, body {
 .game-frame #gameThumb {
     height: 100%;
     border-radius: 6px;
-    filter: grayscale(0.6) blur(2px);
+    filter: grayscale(0.1) blur(2px);
     width: 100%;
     position: absolute;
+    scale: 1.05;
+}
+.btns {
+    display: flex;
+    gap: 2px;
 }
 .game .panel {
     width: 200px;
@@ -275,6 +278,51 @@ button:hover, .checkbox:hover {
     background: linear-gradient(to right, transparent 4px, #182241 6px);
     border-radius: 3px;
 }
+.editor {
+    display: flex;
+    position: absolute;
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    top: 20px;
+    left: 20px;
+    border-radius: 6px;
+    overflow: visible;
+    background-color: #ffffff2a;
+    backdrop-filter: blur(80px);
+    align-items: center;
+    justify-content: center;
+}
+.editor .close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: #00000070;
+    backdrop-filter: blur(20px);
+    border-radius: 50%;
+    z-index: 5;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 96, 96);
+    height: 30px;
+}
+.editor > iframe {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    border: 0;
+    border-radius: 6px;
+}
+.editor .close i {
+    transition: scale 0.3s ease;
+}
+.editor .close > i:active {
+    scale: 1.1;
+} 
+
+.hidden {
+    display: none !important;
+}
 </style>
 </head>
 <body>
@@ -311,7 +359,6 @@ button:hover, .checkbox:hover {
 <div class="game hidden">
     <div class="game-frame">
         <img src="" id="gameThumb">
-
         <iframe src=""></iframe>
     </div>
     <div class="panel">
@@ -322,13 +369,43 @@ button:hover, .checkbox:hover {
             <div id="interpolate" class="checkbox checked"></div>
             <span>Interpolation</span>
         </div>
-        <button id="reload"><i class="fa-solid fa-refresh"></i> Reload</button>
+        <div class="btns">
+            <button id="reload"><i class="fa-solid fa-refresh"></i> Reload</button>
+            <button id="link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Link</button>
+            <button id="big"><i class="fa-solid fa-expand"></i> Big</button>
+        </div>
         <div class="line"></div>
         <div class="games"></div>
     </div>
 </div>
+<div class="editor hidden">
+    <div class="close"><i class="fa-solid fa-circle-x"></i></div>
+    <iframe id="editorFrame" src=""></iframe>
+</div>
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', ()=>{
+    class xor {
+    static encode(str) {
+        return encodeURIComponent(
+            str
+                .toString()
+                .split("")
+                .map((char, ind) =>
+                    ind % 2 ? String.fromCharCode(char.charCodeAt() ^ 2) : char
+                )
+                .join("")
+        );
+    }
+    static decode(str) {
+        if (str.charAt(str.length - 1) == "/") str = str.slice(0, -1);
+        return decodeURIComponent(str)
+            .split("")
+            .map((char, ind) =>
+                ind % 2 ? String.fromCharCode(char.charCodeAt() ^ 2) : char
+            )
+            .join("");
+    }
+}
+document.addEventListener('DOMContentLoaded', ()=>{
     const duration = 1500;
     var curListener = null;
     var curOtherListener = null;
@@ -358,7 +435,7 @@ button:hover, .checkbox:hover {
     document.querySelector('body').addEventListener('click', showWarn);
     document.querySelector('body').addEventListener('contextmenu', showWarn);
 
-    const games = [{ "name": "Box", "id": 768067716, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/768067716_480x360.png", "url": "https://scratch.mit.edu/projects/768067716" }, { "name": "The Box II", "id": 779794593, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/779794593_480x360.png", "url": "https://scratch.mit.edu/projects/779794593" }, { "name": "Box remix", "id": 896253667, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/896253667_480x360.png", "url": "https://scratch.mit.edu/projects/896253667" }, { "name": "the box 3", "id": 811209008, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png", "url": "https://scratch.mit.edu/projects/918235963" } }, { "name": "a box to the past (box 7)", "id": 924608045, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/924608045_480x360.png", "url": "https://scratch.mit.edu/projects/924608045" }, { "name": "THE BOX VIII", "id": 1061257313, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1061257313_480x360.png", "url": "https://scratch.mit.edu/projects/1061257313" }, { "name": "Bluurii Battle Royale", "id": 1043170192, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1043170192_480x360.png", "url": "https://scratch.mit.edu/projects/1043170192" }];
+    const games = [{ "name": "Box", "id": 768067716, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/768067716_480x360.png", "url": "https://scratch.mit.edu/projects/768067716" }, { "name": "The Box II", "id": 779794593, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/779794593_480x360.png", "url": "https://scratch.mit.edu/projects/779794593" }, { "name": "Box remix", "id": 896253667, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/896253667_480x360.png", "url": "https://scratch.mit.edu/projects/896253667" }, { "name": "the box 3", "id": 811209008, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png", "url": "https://scratch.mit.edu/projects/918235963" } }, { "name": "box world tour", "id": 903233620, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/903233620_480x360.png", "url": "https://scratch.mit.edu/projects/903233620" }, { "name": "cave story (box 5)", "id": 918235963, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/918235963_480x360.png", "url": "https://scratch.mit.edu/projects/918235963" }, { "name": "a box to the past (box 7)", "id": 924608045, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/924608045_480x360.png", "url": "https://scratch.mit.edu/projects/924608045" }, { "name": "THE BOX VIII", "id": 1061257313, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1061257313_480x360.png", "url": "https://scratch.mit.edu/projects/1061257313" }, { "name": "Bluurii Battle Royale", "id": 1043170192, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1043170192_480x360.png", "url": "https://scratch.mit.edu/projects/1043170192" }];
     const validKeys = ["ArrowLeft", "ArrowUp", "ArrowDown", "ArrowRight", "Enter", " ", "Escape"];
     var selectedGame = 0;
 
@@ -371,6 +448,20 @@ button:hover, .checkbox:hover {
             showGame();
         }
     })
+
+    var editor = document.querySelector('.editor');
+    var curGameEmbed = "", curGameLink = "";
+    document.querySelector('.close').addEventListener('click', ()=>{
+        editor.classList.add('hidden');
+        editorFrame.src="";
+    })
+    document.querySelector('#big').addEventListener('click', () => {
+        editor.classList.remove('hidden');
+        editorFrame.src = curGameEmbed;
+    })
+    document.querySelector('#link').addEventListener('click', () => {
+        window.open(curGameLink);
+    })
     function showGame() {
         game.classList.remove('hidden');
         menu.classList.add('hidden');
@@ -382,21 +473,27 @@ button:hover, .checkbox:hover {
         return document.querySelector('#'+id).classList.contains('checked');
     }
 
+    const url = "https://not.counterfeitcontent.com/uv/service/";
+
     var gameFrame = document.querySelector('iframe');
     var gameAuthorImage = document.querySelector('#gameAuthorImage');
     var gameAuthor = document.querySelector('#gameAuthor');
     var gameName = document.querySelector('#gameName');
     var gameThumb = document.querySelector('#gameThumb');
+    var editorFrame = document.querySelector('#editorFrame');
     function loadGame(game) {
-        gameFrame.src = "https://turbowarp.org/" + game.id + "/embed" + `${is('interpolate') && "?interpolate"}`;
+        var turbowarpLink = "https://turbowarp.org/" + game.id + "/embed" + `?fullscreen-button&username=BoxoceraUser${is('interpolate') && "&interpolate"}`;
+        gameFrame.src = turbowarpLink;
         gameAuthorImage.src = game.author.image;
         gameAuthor.textContent = game.author.name;
         gameName.textContent = game.name;
         gameThumb.classList.remove('hidden');
         gameThumb.src = game.image;
         gameFrame.addEventListener('load', ()=>{
-            gameThumb.classList.add('hidden');
-        })
+            setTimeout(() => gameThumb.classList.add('hidden'), 600);
+        });
+        curGameEmbed = turbowarpLink;
+        curGameLink = game.url;
     }
     function updateGame() {
         gameFrame.src = gameFrame.src;
