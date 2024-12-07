@@ -370,8 +370,9 @@ button:hover, .checkbox:hover {
             <span>Interpolation</span>
         </div>
         <div class="btns">
-            <button id="reload"><i class="fa-solid fa-refresh"></i> Reload</button>
-            <button id="link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Link</button>
+            <button id="reload"><i class="fa-solid fa-refresh"></i></button>
+            <button id="closepage"><i class="fa-solid x"></i></button>
+            <button id="link"><i class="fa-solid fa-arrow-up-right-from-square"></i></button>
             <button id="big"><i class="fa-solid fa-expand"></i> Big</button>
         </div>
         <div class="line"></div>
@@ -458,6 +459,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('#big').addEventListener('click', () => {
         editor.classList.remove('hidden');
         editorFrame.src = curGameEmbed;
+    })
+    document.querySelector('#closepage').addEventListener('click', () => {
+        window.close();
     })
     document.querySelector('#link').addEventListener('click', () => {
         window.open(curGameLink);
