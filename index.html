@@ -5,16 +5,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quadpad Export</title>
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
-<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-solid.css">
+
 <style>
-    :root {
+    @import url("https://rsms.me/inter/inter.css");
+@import url("https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css");
+@import url("https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-solid.css");
+
+:root {
     --border: 4px solid #3066B3;
     --hot: #D1D0D1;
     --cold: #7D7C7C;
 }
-html, body {
+
+html,
+body {
     background: #060C16;
     color: var(--hot);
     font-family: Inter;
@@ -25,6 +29,7 @@ html, body {
     height: 100vh;
     cursor: crosshair;
 }
+
 .bar {
     background: #010205;
     border-top: 4px solid #325CAC;
@@ -37,12 +42,14 @@ html, body {
     padding-left: 12px;
     align-items: center;
 }
+
 .center {
     height: calc(100vh - 54px);
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
 .mid {
     height: 180px;
     width: 100vw;
@@ -52,8 +59,9 @@ html, body {
     align-items: center;
     border-top: var(--border);
     border-bottom: var(--border);
-    background-color: rgba(200,200,255,0.04);
+    background-color: rgba(200, 200, 255, 0.04);
 }
+
 .mid::before {
     width: 100vw;
     height: 40px;
@@ -62,6 +70,7 @@ html, body {
     background: linear-gradient(transparent, #17253f);
     top: -44px;
 }
+
 .mid::after {
     width: 100vw;
     height: 40px;
@@ -70,41 +79,55 @@ html, body {
     background: linear-gradient(#17253f, transparent);
     bottom: -44px;
 }
+
 #top-left {
     top: 8px;
     left: 8px;
     position: absolute;
     font-size: 22px;
 }
+
 #top-left-2 {
     top: 38px;
     left: 10px;
     font-size: 14px;
     position: absolute;
 }
+
 .mid {
     justify-content: space-around;
 }
-.r, .l {
-    height: 60px;
+
+.r,
+.l {
+    height: 110px;
+    width: 25%;
+    filter: blur(1.5px) grayscale(0.3) opacity(0.85);
 }
+
 .s {
-    height: 100px;
+    height: 220px;
+    width: 50%;
 }
-.pre, .post {
+
+.pre,
+.post {
     position: absolute;
     left: 0;
     height: 100%;
     width: 170px;
 }
+
 .pre {
     background: linear-gradient(to right, #17253f80, transparent);
 }
+
 .post {
     right: 0;
     left: unset;
     background: linear-gradient(to left, #17253f80, transparent);
 }
+
 * {
     user-select: none;
 }
@@ -124,68 +147,86 @@ html, body {
     justify-content: center;
     z-index: 5;
 }
+
 .warn h1 {
     margin: 2px 0;
 }
+
 #icons {
     gap: 2px;
     display: flex;
 }
+
 #icons i {
     font-size: 25px;
 }
+
 @keyframes warnShow {
     0% {
         opacity: 0;
         display: flex;
     }
+
     100% {
         opacity: 1;
         display: flex;
     }
 }
+
 @keyframes warnHide {
     0% {
         opacity: 1;
         display: flex;
     }
+
     100% {
         opacity: 0;
         display: none;
     }
 }
+
 .warn.active {
     display: flex;
     animation: warnShow 0.2s ease forwards;
 }
+
 .warn.disabling {
     animation: warnHide 0.25s ease forwards !important;
 }
+
 .bar {
     gap: 15px;
 }
+
 .bar #icon i {
     color: #3066B3;
 }
+
 .bar #icon span {
     color: var(--cold);
     font-weight: 800;
 }
+
 .gap {
     width: 10px;
     height: 16px;
 }
-.menu, .game {
+
+.menu,
+.game {
     width: 100vw;
     height: 100vh;
     display: flex;
 }
+
 .game {
     align-items: center;
     justify-content: center;
     gap: 5px;
 }
-.game-frame, .game .panel {
+
+.game-frame,
+.game .panel {
     height: 300px;
     overflow: hidden;
     width: 350px;
@@ -193,12 +234,14 @@ html, body {
     border: 3px solid #ffffff0a;
     position: relative;
 }
+
 .game-frame iframe {
     border: 0;
     width: 100%;
     height: 100%;
     border-radius: 6px;
 }
+
 .game-frame #gameThumb {
     height: 100%;
     border-radius: 6px;
@@ -207,10 +250,12 @@ html, body {
     position: absolute;
     scale: 1.05;
 }
+
 .btns {
     display: flex;
     gap: 2px;
 }
+
 .game .panel {
     width: 200px;
     display: flex;
@@ -218,6 +263,7 @@ html, body {
     flex-direction: column;
     gap: 2px;
 }
+
 .checkbox {
     background-color: black;
     width: 15px;
@@ -226,6 +272,7 @@ html, body {
     border-radius: 4px;
     cursor: default;
 }
+
 button {
     border: 2px solid rgb(2, 69, 71);
     border-radius: 4px;
@@ -234,32 +281,40 @@ button {
     color: var(--hot);
     gap: 2px;
 }
-button:hover, .checkbox:hover {
+
+button:hover,
+.checkbox:hover {
     background-color: #111120;
 }
+
 .checkbox.checked {
     background: #2085a3;
 }
+
 .checkbox-container {
     display: flex;
     align-items: center;
     gap: 4px;
 }
+
 .line {
     width: 100%;
     height: 3px;
     background: #ffffff0a;
     margin: 8px 0px;
 }
+
 #gameAuthorImage {
     height: 25px;
     border-radius: 50%;
 }
+
 .yCenter {
     display: flex;
     gap: 3px;
     align-items: center;
 }
+
 .games {
     width: 100%;
     height: 100%;
@@ -274,10 +329,12 @@ button:hover, .checkbox:hover {
     border-radius: 3px;
     width: 12px;
 }
+
 ::-webkit-scrollbar-thumb {
     background: linear-gradient(to right, transparent 4px, #182241 6px);
     border-radius: 3px;
 }
+
 .editor {
     display: flex;
     position: absolute;
@@ -292,6 +349,7 @@ button:hover, .checkbox:hover {
     align-items: center;
     justify-content: center;
 }
+
 .editor .close {
     position: absolute;
     top: -15px;
@@ -307,18 +365,21 @@ button:hover, .checkbox:hover {
     color: rgb(255, 96, 96);
     height: 30px;
 }
-.editor > iframe {
+
+.editor>iframe {
     width: calc(100% - 20px);
     height: calc(100% - 20px);
     border: 0;
     border-radius: 6px;
 }
+
 .editor .close i {
     transition: scale 0.3s ease;
 }
-.editor .close > i:active {
+
+.editor .close>i:active {
     scale: 1.1;
-} 
+}
 
 .hidden {
     display: none !important;
@@ -326,15 +387,17 @@ button:hover, .checkbox:hover {
 </style>
 </head>
 <body>
+<script src="https://unpkg.com/eruda@3.4.1/eruda.js"></script>
+<script>eruda.init()</script>
 <div class="menu">
     <span id="top-left">Boxocera Linux</span>
     <span id="top-left-2">Euh, c'est quoi le sigma?</span>
     <div class="center">
         <div class="mid">
             <div class="pre"></div>
-            <img src="https://raw.githubusercontent.com/RetroPie/es-theme-carbon/b09973e0b0c589cb11fe772c169a6ff5d588b390/wii/art/system.svg" class="l">
-            <img src="https://raw.githubusercontent.com/RetroPie/es-theme-carbon/b09973e0b0c589cb11fe772c169a6ff5d588b390/nes/art/system.svg" class="s">
-            <img src="https://raw.githubusercontent.com/RetroPie/es-theme-carbon/b09973e0b0c589cb11fe772c169a6ff5d588b390/ports/art/system.svg" class="r">
+            <img src="https://github.com/GavinGoGaming/boxocera/blob/main/BoxLogo.png?raw=true" class="l">
+            <img src="https://github.com/GavinGoGaming/boxocera/blob/main/GavinLogo.png?raw=true" class="s">
+            <img src="https://github.com/GavinGoGaming/boxocera/blob/main/ShkrLogo.png?raw=true" class="r">
             <div class="post"></div>
         </div>
     </div>
@@ -406,7 +469,28 @@ button:hover, .checkbox:hover {
             .join("");
     }
 }
-document.addEventListener('DOMContentLoaded', ()=>{
+
+let activeGame = "gavin";
+function moveSelected(dir) {
+    const left = document.querySelector('img.l');
+    const mid = document.querySelector('img.s');
+    const right = document.querySelector('img.r');
+    var leftSrc = left.src;
+    var midSrc = mid.src;
+    var rightSrc = right.src;
+    if(dir == "right") {
+        right.src = leftSrc;
+        mid.src = rightSrc;
+        left.src = midSrc;
+    }else if(dir == "left") {
+        right.src = midSrc;
+        mid.src = leftSrc;
+        left.src = rightSrc;
+    }
+    activeGame = mid.src.split("https://github.com/GavinGoGaming/boxocera/blob/main/")[1].split('Logo.png')[0].toLowerCase();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
     const duration = 1500;
     var curListener = null;
     var curOtherListener = null;
@@ -436,7 +520,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('body').addEventListener('click', showWarn);
     document.querySelector('body').addEventListener('contextmenu', showWarn);
 
-    const games = [{ "name": "Box", "id": 768067716, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/768067716_480x360.png", "url": "https://scratch.mit.edu/projects/768067716" }, { "name": "The Box II", "id": 779794593, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/779794593_480x360.png", "url": "https://scratch.mit.edu/projects/779794593" }, { "name": "Box remix", "id": 896253667, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/896253667_480x360.png", "url": "https://scratch.mit.edu/projects/896253667" }, { "name": "the box 3", "id": 811209008, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png", "url": "https://scratch.mit.edu/projects/918235963" } }, { "name": "box world tour", "id": 903233620, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/903233620_480x360.png", "url": "https://scratch.mit.edu/projects/903233620" }, { "name": "cave story (box 5)", "id": 918235963, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/918235963_480x360.png", "url": "https://scratch.mit.edu/projects/918235963" }, { "name": "a box to the past (box 7)", "id": 924608045, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/924608045_480x360.png", "url": "https://scratch.mit.edu/projects/924608045" }, { "name": "THE BOX VIII", "id": 1061257313, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1061257313_480x360.png", "url": "https://scratch.mit.edu/projects/1061257313" }, { "name": "Bluurii Battle Royale", "id": 1043170192, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1043170192_480x360.png", "url": "https://scratch.mit.edu/projects/1043170192" }];
+    const gamesBox = [{ "name": "Box", "id": 768067716, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/768067716_480x360.png", "url": "https://scratch.mit.edu/projects/768067716" }, { "name": "The Box II", "id": 779794593, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/779794593_480x360.png", "url": "https://scratch.mit.edu/projects/779794593" }, { "name": "Box remix", "id": 896253667, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/896253667_480x360.png", "url": "https://scratch.mit.edu/projects/896253667" }, { "name": "the box 3", "id": 811209008, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png", "url": "https://scratch.mit.edu/projects/918235963" } }, { "name": "box world tour", "id": 903233620, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/903233620_480x360.png", "url": "https://scratch.mit.edu/projects/903233620" }, { "name": "cave story (box 5)", "id": 918235963, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/918235963_480x360.png", "url": "https://scratch.mit.edu/projects/918235963" }, { "name": "a box to the past (box 7)", "id": 924608045, "author": { "id": 96511432, "name": "wesjanson", "image": "https://cdn2.scratch.mit.edu/get_image/user/96511432_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/924608045_480x360.png", "url": "https://scratch.mit.edu/projects/924608045" }, { "name": "THE BOX VIII", "id": 1061257313, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1061257313_480x360.png", "url": "https://scratch.mit.edu/projects/1061257313" }, { "name": "Bluurii Battle Royale", "id": 1043170192, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1043170192_480x360.png", "url": "https://scratch.mit.edu/projects/1043170192" }];
+    const gamesShkr = [{ "name": "Shkr generator", "id": 1023124126, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1023124126_480x360.png", "url": "https://scratch.mit.edu/projects/1023124126" }, { "name": "Shkrmishshkr Adventures Continues", "id": 780283039, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/780283039_480x360.png", "url": "https://scratch.mit.edu/projects/780283039" }, { "name": "Shkrmishshkr parkour", "id": 836781717, "author": { "id": 97709060, "name": "whatislifelike", "image": "https://cdn2.scratch.mit.edu/get_image/user/97709060_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/836781717_480x360.png", "url": "https://scratch.mit.edu/projects/836781717" }, { "name": "shkrmishshkr the legendary racer", "id": 712794173, "author": { "id": 78538474, "name": "AndrewKwak23", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538474_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/712794173_480x360.png", "url": "https://scratch.mit.edu/projects/712794173" }, { "name": "Shkrmishshkr ATTACK!!!!!!!!!!!!!!!", "id": 753518637, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/753518637_480x360.png", "url": "https://scratch.mit.edu/projects/753518637" }, { "name": "Shkrmishshkr click trainer", "id": 712751794, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/712751794_480x360.png", "url": "https://scratch.mit.edu/projects/712751794" }, { "name": "Shkrmish fighter (BETA)", "id": 712774032, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/712774032_480x360.png", "url": "https://scratch.mit.edu/projects/712774032" }, { "name": "Shkrmishshkr Adventures: The sequel!", "id": 545285416, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/545285416_480x360.png", "url": "https://scratch.mit.edu/projects/545285416" }, { "name": "SUPER TANK", "id": 548019780, "author": { "id": 78538507, "name": "Bluurii", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538507_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/548019780_480x360.png", "url": "https://scratch.mit.edu/projects/548019780" }, { "name": "shkrmishshkr rpg", "id": 706135608, "author": { "id": 78538474, "name": "AndrewKwak23", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538474_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/706135608_480x360.png", "url": "https://scratch.mit.edu/projects/706135608" }, { "name": "the attack of ooga booga (shkrmishshkr game)", "id": 670049305, "author": { "id": 78538474, "name": "AndrewKwak23", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538474_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/670049305_480x360.png", "url": "https://scratch.mit.edu/projects/670049305" }, { "name": "Shkrmishshkr's adventure", "id": 544862114, "author": { "id": 78538474, "name": "AndrewKwak23", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538474_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/544862114_480x360.png", "url": "https://scratch.mit.edu/projects/544862114" }, { "name": "shkrmishshkr's revenge", "id": 545379372, "author": { "id": 78538474, "name": "AndrewKwak23", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538474_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/545379372_480x360.png", "url": "https://scratch.mit.edu/projects/545379372" }, { "name": "shkrmishshkr clicker!", "id": 663599932, "author": { "id": 78538474, "name": "AndrewKwak23", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538474_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/663599932_480x360.png", "url": "https://scratch.mit.edu/projects/663599932" }, { "name": "shkrmishshkr's supa laggy game", "id": 550263872, "author": { "id": 78538474, "name": "AndrewKwak23", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538474_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/550263872_480x360.png", "url": "https://scratch.mit.edu/projects/550263872" }, { "name": "shkrmishshkr grass eating simulator", "id": 650712403, "author": { "id": 78538474, "name": "AndrewKwak23", "image": "https://cdn2.scratch.mit.edu/get_image/user/78538474_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/650712403_480x360.png", "url": "https://scratch.mit.edu/projects/650712403" }];
+    const gamesGavin = [{ "name": "FINGERBOARD WALL", "id": 927243782, "author": { "id": 58813447, "name": "GavinGoGaming", "image": "https://cdn2.scratch.mit.edu/get_image/user/58813447_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/927243782_480x360.png", "url": "https://scratch.mit.edu/projects/927243782/" }, { "name": "Just Blocks & Notes [v1.2]", "id": 1036343147, "author": { "id": 58813447, "name": "GavinGoGaming", "image": "https://cdn2.scratch.mit.edu/get_image/user/58813447_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1036343147_480x360.png", "url": "https://scratch.mit.edu/projects/1036343147" }, { "name": "TAG (Beta)", "id": 909260519, "author": { "id": 58813447, "name": "GavinGoGaming", "image": "https://cdn2.scratch.mit.edu/get_image/user/58813447_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/909260519_480x360.png", "url": "https://scratch.mit.edu/projects/909260519" }, { "name": "Goobmetry Craft (1:1 Minecraft)", "id": 1043374840, "author": { "id": 58813447, "name": "GavinGoGaming", "image": "https://cdn2.scratch.mit.edu/get_image/user/58813447_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/1043374840_480x360.png", "url": "https://scratch.mit.edu/projects/1043374840/" }, { "name": "chop n' go - Rule a Kingdom", "id": 937072983, "author": { "id": 58813447, "name": "GavinGoGaming", "image": "https://cdn2.scratch.mit.edu/get_image/user/58813447_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/937072983_480x360.png", "url": "https://scratch.mit.edu/projects/937072983" }, { "name": "two birds one stone | a puzzle game (V1.7)", "id": 921577616, "author": { "id": 58813447, "name": "GavinGoGaming", "image": "https://cdn2.scratch.mit.edu/get_image/user/58813447_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/921577616_480x360.png", "url": "https://scratch.mit.edu/projects/921577616" }, { "name": "Geometry Dash E12 (with Skins, Hacks, and Colors)", "id": 947632035, "author": { "id": 58813447, "name": "GavinGoGaming", "image": "https://cdn2.scratch.mit.edu/get_image/user/58813447_90x90.png?v=" }, "image": "https://cdn2.scratch.mit.edu/get_image/project/947632035_480x360.png", "url": "https://scratch.mit.edu/projects/947632035" }];
+    var games = {
+        "box": gamesBox,
+        "shkr": gamesShkr,
+        "gavin": gamesGavin
+    };
     const validKeys = ["ArrowLeft", "ArrowUp", "ArrowDown", "ArrowRight", "Enter", " ", "Escape"];
     var selectedGame = 0;
 
@@ -445,16 +536,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('body').addEventListener('keydown', (ev) => {
         if (validKeys.includes(ev.key)) {
             if (opened) return;
-            opened = true;
-            showGame();
+
+            if(ev.key == "ArrowDown" || ev.key == "Space" || ev.key == "Enter") {
+                opened = true;
+                showGame();
+            }
+            if (ev.key == "ArrowLeft") { moveSelected('left'); }
+            if (ev.key == "ArrowRight") { moveSelected('right'); }
         }
     })
 
     var editor = document.querySelector('.editor');
     var curGameEmbed = "", curGameLink = "";
-    document.querySelector('.close').addEventListener('click', ()=>{
+    document.querySelector('.close').addEventListener('click', () => {
         editor.classList.add('hidden');
-        editorFrame.src="";
+        editorFrame.src = "";
     })
     document.querySelector('#big').addEventListener('click', () => {
         editor.classList.remove('hidden');
@@ -467,14 +563,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
         window.open(curGameLink);
     })
     function showGame() {
+        games[activeGame].map((game, idx) => {
+            const btn = document.createElement('button');
+            btn.textContent = game.name;
+            btn.addEventListener('click', () => {
+                selectedGame = idx;
+                loadGame(games[activeGame][selectedGame]);
+            })
+            document.querySelector('.games').append(btn);
+        })
         game.classList.remove('hidden');
         menu.classList.add('hidden');
         showWarn = function () { };
-        loadGame(games[selectedGame]);
+        loadGame(games[activeGame][selectedGame]);
     }
 
     function is(id) {
-        return document.querySelector('#'+id).classList.contains('checked');
+        return document.querySelector('#' + id).classList.contains('checked');
     }
 
     const url = "https://not.counterfeitcontent.com/uv/service/";
@@ -493,7 +598,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         gameName.textContent = game.name;
         gameThumb.classList.remove('hidden');
         gameThumb.src = game.image;
-        gameFrame.addEventListener('load', ()=>{
+        gameFrame.addEventListener('load', () => {
             setTimeout(() => gameThumb.classList.add('hidden'), 600);
         });
         curGameEmbed = turbowarpLink;
@@ -505,23 +610,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     // showGame();
 
-    games.map((game, idx) => {
-        const btn = document.createElement('button');
-        btn.textContent = game.name;
-        btn.addEventListener('click', ()=>{
-            selectedGame = idx;
-            loadGame(games[selectedGame]);
-        })
-        document.querySelector('.games').append(btn);
-    })
-
     document.querySelectorAll('.checkbox').forEach(box => {
         box.addEventListener('click', () => {
             box.classList.toggle('checked');
             updateGame();
         })
     })
-    document.querySelector('#reload').addEventListener('click', ()=>{
+    document.querySelector('#reload').addEventListener('click', () => {
         updateGame();
     });
 })
